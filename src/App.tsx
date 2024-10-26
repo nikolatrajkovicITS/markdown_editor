@@ -1,9 +1,9 @@
-import PostList from "@/components/PostList";
+import DocumentList from "@/components/DocumentList";
 
 const App = () => (
   <div className="App">
-    <h1>JSONPlaceholder Posts</h1>
-    <PostList />
+    <h1>Document Viewer</h1>
+    <DocumentList />
   </div>
 );
 
