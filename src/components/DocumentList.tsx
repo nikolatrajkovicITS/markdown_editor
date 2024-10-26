@@ -11,15 +11,17 @@ const DocumentList = () => {
   return (
     <div>
       <h2>Documents</h2>
-      <ul>
-        {documents.map((doc) => (
-          <li key={doc.name}>
-            <h3>{doc.name}</h3>
-            <p>Created at: {doc.createdAt}</p>
-            <pre>{doc.content}</pre>
-          </li>
-        ))}
-      </ul>
+      <section>
+        <ul>
+          {documents.map((doc) => (
+            <li key={doc.name}>
+              <h3>{doc.name}</h3>
+              <p>Created at: {doc.createdAt}</p>
+              <pre>{doc.content}</pre>
+            </li>
+          ))}
+        </ul>
+      </section>
     </div>
   );
 };

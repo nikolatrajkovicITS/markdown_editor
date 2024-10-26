@@ -1,10 +1,12 @@
 import DocumentList from "@/components/DocumentList";
 
 const App = () => (
-  <div className="App">
-    <h1>Document Viewer</h1>
+  <main className="App">
+    <header>
+      <h1>Document Viewer</h1>
+    </header>
     <DocumentList />
-  </div>
+  </main>
 );
 
 export default App;
