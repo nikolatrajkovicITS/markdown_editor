@@ -1,9 +1,10 @@
-function App() {
-  return (
-    <div>
-      <h1 className="text-3xl font-bold underline">Hello World</h1>
-    </div>
-  );
-}
+import PostList from "@/components/PostList";
+
+const App = () => (
+  <div className="App">
+    <h1>JSONPlaceholder Posts</h1>
+    <PostList />
+  </div>
+);
 
 export default App;
