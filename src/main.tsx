@@ -5,7 +5,7 @@ import App from "./App";
 import Providers from "@/store/Providers";
 import "@/styles/main.css";
 
-import { initSentry } from "@/config/analyticsSetup";
+import { initSentry } from "@/config/sentry";
 
 initSentry();
 

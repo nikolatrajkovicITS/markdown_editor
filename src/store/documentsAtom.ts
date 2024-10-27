@@ -1,6 +1,7 @@
 import { atomWithQuery } from "jotai-tanstack-query";
 import { QueryClient } from "@tanstack/react-query";
 import * as Sentry from "@sentry/react";
+import { trackEvent } from "@/config/segment";
 
 const queryClient = new QueryClient();
 
@@ -10,6 +11,8 @@ const fetchDocuments = async () => {
     if (!response.ok) {
       throw new Error("Failed to fetch documents");
     }
+
+    trackEvent("documents fetched");
     return response.json();
   } catch (error) {
     Sentry.captureException(`Error fetching documents Nikola_____: ${error}`);
