@@ -1,12 +1,21 @@
-import { http } from "msw";
+import { http, HttpResponse } from "msw";
 import documents from "./data.json";
 
-// Define request handlers / Mock api endpoints
 export const handlers = [
   http.get("/api/documents", () => {
-    return new Response(JSON.stringify(documents), {
-      status: 200,
-      headers: { "Content-Type": "application/json" },
-    });
+    return HttpResponse.json(documents, { status: 200 });
   }),
+
+  http.all(
+    "https://o4508194141503488.ingest.de.sentry.io/*",
+    async ({ request }) => {
+      try {
+        const response = await fetch(request);
+        return response;
+      } catch (error) {
+        console.warn("Failed to forward request to Sentry:", error);
+        return new HttpResponse(null, { status: 200 });
+      }
+    }
+  ),
 ];

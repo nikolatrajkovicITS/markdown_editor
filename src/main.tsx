@@ -3,15 +3,17 @@ import { createRoot } from "react-dom/client";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import App from "./App";
 import Providers from "@/store/Providers";
-import { worker } from "@/mocks/browser";
 import "@/styles/main.css";
 
-const queryClient = new QueryClient();
+import { initSentry } from "@/config/analyticsSetup";
 
-// MSW service worker
+initSentry();
+
 if (process.env.NODE_ENV === "development") {
-  worker.start({
-    onUnhandledRequest: "bypass",
+  import("./mocks/browser").then(({ worker }) => {
+    worker.start({
+      onUnhandledRequest: "bypass",
+    });
   });
 }
 
@@ -21,6 +23,9 @@ if (process.env.NODE_ENV === "development") {
     axe.default(React, createRoot, 1000);
   });
 }
+
+const queryClient = new QueryClient();
+
 
 const rootElement = document.getElementById("root");
 if (!rootElement) throw new Error("Root element not found");
