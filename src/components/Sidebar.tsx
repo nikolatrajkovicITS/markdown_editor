@@ -16,7 +16,6 @@ export const Sidebar = ({ onClose }: { onClose: () => void }) => {
 
   const handleDocumentSelect = (docId: string) => {
     setActiveId(docId);
-    onClose();
   };
 
   return (

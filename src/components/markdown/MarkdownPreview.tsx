@@ -15,7 +15,7 @@ export const MarkdownPreview = ({
 }: MarkdownPreviewProps) => {
   return (
     <div className={`${previewMode ? "w-full" : "w-1/2"} p-2`}>
-      <div className="flex justify-between items-center space-x-2 mb-2">
+      <div className="flex justify-between items-center space-x-2">
         <h2 className="text-sm font-semibold">PREVIEW</h2>
         <IconButton
           icon={<Eye className="w-5 h-5 text-gray-400" />}
