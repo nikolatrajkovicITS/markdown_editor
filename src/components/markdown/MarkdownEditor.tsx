@@ -1,17 +1,21 @@
-import { useState } from "react";
 import { useAtom } from "jotai";
 import { sidebarOpenAtom, previewModeAtom } from "@/store/atoms";
 import { MarkdownHeader } from "@/components/markdown/MarkdownHeader";
 import { MarkdownPreview } from "@/components/markdown/MarkdownPreview";
 import { MarkdownTextarea } from "@/components/markdown/MarkdownTextarea";
 import { Sidebar } from "@/components/Sidebar";
+import { useDocuments } from "@/hooks/useDocuments";
 
 export const MarkdownEditor = () => {
-  const [markdown, setMarkdown] = useState<string>(
-    `# Welcome to Markdown\n\nStart typing your markdown here...`
-  );
   const [sidebarOpen, setSidebarOpen] = useAtom(sidebarOpenAtom);
   const [previewMode, setPreviewMode] = useAtom(previewModeAtom);
+  const { activeDocument, updateDocument } = useDocuments();
+
+  const handleChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
+    if (activeDocument) {
+      updateDocument(activeDocument.id, { content: e.target.value });
+    }
+  };
 
   return (
     <div className="flex flex-col h-screen bg-gray-900 text-gray-100">
@@ -25,13 +29,13 @@ export const MarkdownEditor = () => {
         <div className={`flex-grow flex ${sidebarOpen ? "ml-0" : "ml-0"}`}>
           {!previewMode && (
             <MarkdownTextarea
-              value={markdown}
-              onChange={(e) => setMarkdown(e.target.value)}
+              value={activeDocument?.content || ""}
+              onChange={handleChange}
             />
           )}
 
           <MarkdownPreview
-            markdown={markdown}
+            markdown={activeDocument?.content || ""}
             previewMode={previewMode}
             onTogglePreview={() => setPreviewMode(!previewMode)}
           />

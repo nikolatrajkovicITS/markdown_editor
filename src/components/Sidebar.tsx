@@ -1,31 +1,23 @@
 import { atom, useAtom } from "jotai";
-import { useState } from "react";
 import { FileText, X, Plus, Moon, Sun } from "lucide-react";
 import { format } from "date-fns";
 import { Button, IconButton } from "./ui";
+import { useDocuments } from "@/hooks/useDocuments";
 
 const darkModeAtom = atom(true);
 
-interface Document {
-  id: string;
-  name: string;
-  createdAt: Date;
-}
-
 export const Sidebar = ({ onClose }: { onClose: () => void }) => {
   const [darkMode, setDarkMode] = useAtom(darkModeAtom);
-  const [documents] = useState<Document[]>([
-    {
-      id: "1",
-      name: "untitled-document.md",
-      createdAt: new Date("2022-04-01"),
-    },
-    {
-      id: "2",
-      name: "welcome.md",
-      createdAt: new Date("2022-04-01"),
-    },
-  ]);
+  const { documents, activeId, setActiveId, createDocument } = useDocuments();
+
+  const handleCreateDocument = () => {
+    createDocument();
+  };
+
+  const handleDocumentSelect = (docId: string) => {
+    setActiveId(docId);
+    onClose();
+  };
 
   return (
     <div className="w-64 h-full bg-gray-900 text-gray-100 flex flex-col">
@@ -43,6 +35,7 @@ export const Sidebar = ({ onClose }: { onClose: () => void }) => {
           variant="primary"
           icon={<Plus className="w-4 h-4" />}
           className="w-full justify-center"
+          onClick={handleCreateDocument}
         >
           New Document
         </Button>
@@ -52,7 +45,9 @@ export const Sidebar = ({ onClose }: { onClose: () => void }) => {
         {documents.map((doc) => (
           <button
             key={doc.id}
-            className="w-full text-left p-4 hover:bg-gray-800 flex items-start space-x-3 transition-colors"
+            onClick={() => handleDocumentSelect(doc.id)}
+            className={`w-full text-left p-4 hover:bg-gray-800 flex items-start space-x-3 transition-colors
+                      ${activeId === doc.id ? "bg-gray-800" : ""}`}
           >
             <FileText className="w-4 h-4 mt-1 text-gray-400" />
             <div className="flex-1 min-w-0">
